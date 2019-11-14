@@ -1,7 +1,12 @@
 # Troupe runtime wrapper script
 
 # Locate the troupe.js runtime and check if it is built
-script_dir=$(dirname $(readlink -f $0))
+if [ "$(uname)" == "Darwin" ]
+then 
+	script_dir=$(dirname $(greadlink -f $0))
+else
+	script_dir=$(dirname $(rreadlink -f $0))
+fi
 troupe_rt="$script_dir/built/troupe.js"
 if [ ! -f "$troupe_rt" ]; then
     echo "Could not find Troupe runtime. Try building it using 'make rt'"
@@ -14,3 +19,4 @@ shift
 
 # Execute the runtime with the specified Troupe script
 node $troupe_rt -f "$troupe_file" "$@"
+
